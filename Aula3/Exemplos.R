@@ -35,3 +35,8 @@ selecao_4 <- pnud_muni %>%
   summarise(  x = sum(espvida*popt) / sum(popt)) %>% 
   arrange (desc(x))
 
+library(tidyr)
+
+install.packages("nycflights13")
+
+library(nycflights13)

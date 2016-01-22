@@ -1,0 +1,35 @@
+---
+title: "lab3"
+author: "curso R de verão 2016"
+date: "22 de janeiro de 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+
+siglas <- read_excel("C:/Users/adm/Downloads/pnud.xlsx", sheet = 1)
+
+municipios <- read_excel("C:/Users/adm/Downloads/pnud.xlsx", sheet = 2)
+
+maiores_idhms <- municipios %>%  
+  select( municipio, uf,  ano, gini, idhm, idhm_e, idhm_l, idhm_r) %>%
+  filter( ano == 2010 ) %>%
+  mutate( idhm_p = paste(round( idhm * 100, 1) , "%" ) ) %>%
+  arrange( desc(idhm) ) %>%
+  tbl_df() %>%
+  head
+
+menor_exp_vida_media <- municipios %>% 
+  select( municipio, ufn,  ano, gini, idhm, idhm_e, idhm_l, idhm_r, espvida, popt) %>%
+  filter( ano == 2000) %>% 
+  group_by( ufn ) %>% 
+  summarise(  x = sum(espvida*popt) / sum(popt)) %>% 
+  arrange (x) %>% 
+  head(1)
+
+# outiliers 2*dp/sqrt(n)
+
+
+```
+
