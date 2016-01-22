@@ -24,10 +24,19 @@ proporcao <- function (resultados) {
 }
 
 simulacao <- function (k, n, p) {
-  replicate(k, proporcao(moedas(n, p)))
+  vetor_resultados <- replicate(k, proporcao(moedas(n, p)))
+  vetor_resultados
 }
 
-simulacao (10, 10, 0.5)
+hist(simulacao (10, 10, 0.5) )
+
+hist(simulacao (10, 100, 0.5) )
+
+hist(simulacao (10, 1000, 0.5) )
+
+
+hist(simulacao (10, 10000, 0.5) )
+
 
 ```
 
