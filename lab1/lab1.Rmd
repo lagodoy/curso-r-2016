@@ -5,38 +5,97 @@ date: "18 de janeiro de 2016"
 output: html_document
 ---
 
+A função moeda retorna 1 se o resultado for cara e 0 se for coroa com a probabilidade p do resultado ser cara:
+
 ```{r}
 moeda <- function (p) {
   x <- runif(1)
   if (x < p) {
-    TRUE
+    1
   } else {
-    FALSE
+    0
   }
 }
+```
 
+A função moedas efetua um número n de lançamentos com probabilidade p de se ter o resultado como cara:
+
+```{r}
 moedas <- function (n, p) {
   replicate(n, moeda(p))
 }
+```
 
+Retorna a proporção de 1's no vetor resultados:
+
+```{r}
 proporcao <- function (resultados) {
   sum(resultados)/length(resultados)
 }
+```
 
+A função a seguir simula o lançamento de n moedas, com probabilidade p de se obter cara, k vezes. As proporções são salvas em um vetor que é retornado pela função:
+
+```{r}
 simulacao <- function (k, n, p) {
   vetor_resultados <- replicate(k, proporcao(moedas(n, p)))
   vetor_resultados
 }
 
-hist(simulacao (10, 10, 0.5) )
-
-hist(simulacao (10, 100, 0.5) )
-
-hist(simulacao (10, 1000, 0.5) )
-
-
-hist(simulacao (10, 10000, 0.5) )
-
-
 ```
 
+Pelo teorema central do limite, conforme aumentamos o tamanho da amostra, a distribuição amostral da média se aproxima de uma normal. Vemos abaixo a simulação dos lançamentos de moesdas anteriormente desenvolvidos e seus respectivos histogramas para observarmos o comportamento mencionado:
+
+n = 10 e p = 0.5:
+
+```{r}
+hist(simulacao (10, 10, 0.5) )
+```
+
+```{r}
+hist(simulacao (100, 10, 0.5) )
+```
+
+```{r}
+hist(simulacao (1000, 10, 0.5) )
+```
+
+```{r}
+hist(simulacao (10000, 10, 0.5) )
+```
+
+n = 15 e p = 0.3:
+
+```{r}
+hist(simulacao (10, 15, 0.3) )
+```
+
+```{r}
+hist(simulacao (100, 15, 0.3) )
+```
+
+```{r}
+hist(simulacao (1000, 15, 0.3) )
+```
+
+```{r}
+hist(simulacao (10000, 15, 0.3) )
+```
+
+n = 20 e p = 0.6:
+
+```{r}
+hist(simulacao (10, 20, 0.6) )
+```
+
+```{r}
+hist(simulacao (100, 20, 0.6) )
+```
+
+```{r}
+hist(simulacao (1000, 20, 0.6) )
+```
+
+```{r}
+hist(simulacao (10000, 20, 0.6) )
+```
