@@ -5,6 +5,8 @@ date: "18 de janeiro de 2016"
 output: html_document
 ---
 
+# Relatório do Laboratório 1
+
 A função moeda retorna 1 se o resultado for cara e 0 se for coroa com a probabilidade p do resultado ser cara:
 
 ```{r}
