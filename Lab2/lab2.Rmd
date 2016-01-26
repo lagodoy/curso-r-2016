@@ -1,0 +1,106 @@
+---
+title: "Laboratório 2"
+author: "Leonardo Alves Godoy"
+date: "January 26, 2016"
+output: html_document
+---
+
+Parte 1
+
+```{r}
+
+# CSV
+
+link_pnud_csv <-'https://www.dropbox.com/sh/c54yhhxuk82jdmp/AAAB9ykieoGp3_Jkisy3sPDsa/pnud_linux.csv?dl=1'
+
+tmp <- tempfile()
+
+download.file(link_pnud_csv, tmp, quiet = TRUE)
+
+pnud_csv <- read.table(tmp, sep=',', header = TRUE)
+
+file.remove(tmp)
+
+summary(pnud_csv[,1:10])
+
+# TXT
+
+link_pnud_txt <-'https://www.dropbox.com/sh/c54yhhxuk82jdmp/AADRa6Q72y2N8RCn4mPNnwkGa/pnud_linux.txt?dl=1'
+
+tmp <- tempfile()
+
+download.file(link_pnud_txt, tmp, quiet = TRUE)
+
+pnud_txt <- read.table(tmp, sep=' ', header = TRUE)
+
+file.remove(tmp)
+
+summary(pnud_txt[,1:10])
+
+# XLSX
+#install.packages("readxl")
+
+library(readxl)
+
+# A leitura do XLSX foi feita em um arquivo no disco, pois ao se fazer download diretamente pelo código do R ocorria falha na leitura.
+
+path_xlsx <- '/home/leonardo/Documents/Estudos/R/pnud_linux.xlsx'
+
+pnud_xlsx <- read_excel(path_xlsx)
+
+summary(pnud_xlsx[,1:10])
+
+# RDA
+
+link_pnud_rda <-'https://www.dropbox.com/sh/c54yhhxuk82jdmp/AAA4AGMtaUCg6AuQ8seJe3iYa/pnud.rda?dl=1'
+
+tmp <- tempfile()
+
+download.file(link_pnud_rda, tmp, quiet = TRUE)
+
+load(tmp)
+
+pnud_rda <- d
+
+file.remove(tmp)
+
+summary(pnud_rda[,1:10])
+
+# RDS
+
+link_pnud_rds <-'https://www.dropbox.com/sh/c54yhhxuk82jdmp/AAD8BJe5VBboOtamipv9Vg40a/pnud.rds?dl=1'
+
+tmp <- tempfile()
+
+download.file(link_pnud_rds, tmp, quiet = TRUE)
+
+pnud_rds <- readRDS(tmp)
+
+file.remove(tmp)
+
+summary(pnud_rds[,1:10])
+
+# SQLite
+
+#install.packages("dplyr")
+#install.packages("RSQLite")
+
+library(dplyr)
+
+library(RSQLite)
+
+link_pnud_sqlite <-'https://www.dropbox.com/sh/c54yhhxuk82jdmp/AACBc5rr109X8zNd3pe4Bfkda/pnud.sqlite?dl=1'
+
+tmp <- tempfile()
+
+download.file(link_pnud_sqlite, tmp, quiet = TRUE)
+
+pnud_sqlite <- src_sqlite(tmp)
+
+summary(pnud_rds[,1:10])
+
+file.remove(tmp)
+
+```
+
+Parte 2
