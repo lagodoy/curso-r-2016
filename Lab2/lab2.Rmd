@@ -15,7 +15,7 @@ link_pnud_csv <-'https://www.dropbox.com/sh/c54yhhxuk82jdmp/AAAB9ykieoGp3_Jkisy3
 
 tmp <- tempfile()
 
-download.file(link_pnud_csv, tmp, quiet = TRUE)
+download.file(link_pnud_csv, tmp, quiet = TRUE, method="wget")
 
 pnud_csv <- read.table(tmp, sep=',', header = TRUE)
 
@@ -56,7 +56,7 @@ link_pnud_rda <-'https://www.dropbox.com/sh/c54yhhxuk82jdmp/AAA4AGMtaUCg6AuQ8seJ
 
 tmp <- tempfile()
 
-download.file(link_pnud_rda, tmp, quiet = TRUE)
+download.file(link_pnud_rda, tmp, quiet = TRUE, method="libcurl")
 
 load(tmp)
 
