@@ -126,7 +126,7 @@ library(magrittr)
 
 library(dplyr)
 
-pnud %>% 
+pnud_csv %>% 
   select( municipio, ufn,  ano, gini, idhm) %>%
   filter( ano == 2010 ) %>%
   mutate( idhm_p = paste(round( idhm * 100, 1) , "%" ) ) %>%
@@ -138,16 +138,28 @@ pnud %>%
 Unidade federativa com menor expectativa de vida média, ponderada pela população dos municípios em 2000:
 
 ```{r}
-pnud %>% 
+pnud_csv %>% 
   select( municipio, ufn,  ano, gini, idhm, espvida, popt) %>%
   filter( ano == 2000) %>% 
   group_by( ufn ) %>% 
   summarise(  x = sum(espvida*popt) / sum(popt)) %>% 
-  arrange (desc(x))
+  arrange (desc(x)) %>% 
+  head(1)
 ```
 
-Municípios outliers com relação ao índice de Gini em 1991 e em 2010:
+Municípios outliers com relação ao índice de Gini em 1991 e em 2010 ( aqueles que estão acima ou abaixo da média por dois desvios padrão):
 ```{r}
+
+municipios_outliers_1991 <- pnud %>% 
+  select( municipio,ano, gini) %>%
+  filter( ano == 1991 & ( gini > mean(gini) + 2*sd(gini)) | gini < mean(gini) - 2*sd(gini))
+
+municipios_outliers_2010 <- pnud %>% 
+  select( municipio,ano, gini) %>%
+  filter( ano == 2010 & ( gini > mean(gini) + 2*sd(gini)) | gini < mean(gini) - 2*sd(gini))
+
+head(municipios_outliers_1991)
+head(municipios_outliers_2010)
 
 ```
 
