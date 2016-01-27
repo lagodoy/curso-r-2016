@@ -29,7 +29,7 @@ link_pnud_txt <-'https://www.dropbox.com/sh/c54yhhxuk82jdmp/AADRa6Q72y2N8RCn4mPN
 
 tmp <- tempfile()
 
-download.file(link_pnud_txt, tmp, quiet = TRUE)
+download.file(link_pnud_txt, tmp, method="libcurl",quiet = TRUE)
 
 pnud_txt <- read.table(tmp, sep=' ', header = TRUE)
 
