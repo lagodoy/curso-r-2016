@@ -104,3 +104,50 @@ file.remove(tmp)
 ```
 
 Parte 2
+
+Carregamento do arquivo do pnud simplificado:
+```{r}
+
+library(dplyr)
+library(httr)
+
+link_pnud <- 'https://www.dropbox.com/s/seqctcl46qeemgu/pnud_simplificado.rds?dl=1'
+tmp <- tempfile()
+httr::GET(link_pnud, httr::write_disk(tmp))
+pnud <- readRDS(tmp)
+file.remove(tmp)
+```
+
+Seis municípios com os maiores IDH municipais em 2010:
+
+```{r}
+
+library(magrittr)
+
+library(dplyr)
+
+pnud %>% 
+  select( municipio, ufn,  ano, gini, idhm) %>%
+  filter( ano == 2010 ) %>%
+  mutate( idhm_p = paste(round( idhm * 100, 1) , "%" ) ) %>%
+  arrange( desc(idhm) ) %>%
+  tbl_df() %>%
+  head (n = 6 ) 
+```
+
+Unidade federativa com menor expectativa de vida média, ponderada pela população dos municípios em 2000:
+
+```{r}
+pnud %>% 
+  select( municipio, ufn,  ano, gini, idhm, espvida, popt) %>%
+  filter( ano == 2000) %>% 
+  group_by( ufn ) %>% 
+  summarise(  x = sum(espvida*popt) / sum(popt)) %>% 
+  arrange (desc(x))
+```
+
+Municípios outliers com relação ao índice de Gini em 1991 e em 2010:
+```{r}
+
+```
+
