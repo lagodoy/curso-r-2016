@@ -7,29 +7,133 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(dplyr)
+#install.packages("nycflights13")
 
-siglas <- read_excel("C:/Users/adm/Downloads/pnud.xlsx", sheet = 1)
+library(nycflights13)
 
-municipios <- read_excel("C:/Users/adm/Downloads/pnud.xlsx", sheet = 2)
+flights %>% tbl_df
 
-maiores_idhms <- municipios %>%  
-  select( municipio, uf,  ano, gini, idhm, idhm_e, idhm_l, idhm_r) %>%
-  filter( ano == 2010 ) %>%
-  mutate( idhm_p = paste(round( idhm * 100, 1) , "%" ) ) %>%
-  arrange( desc(idhm) ) %>%
-  tbl_df() %>%
-  head
+```
+#select
 
-menor_exp_vida_media <- municipios %>% 
-  select( municipio, ufn,  ano, gini, idhm, idhm_e, idhm_l, idhm_r, espvida, popt) %>%
-  filter( ano == 2000) %>% 
-  group_by( ufn ) %>% 
-  summarise(  x = sum(espvida*popt) / sum(popt)) %>% 
-  arrange (x) %>% 
-  head(1)
-
-# outiliers 2*dp/sqrt(n)
-
+Voos de janeiro de 2013:
+```{r}
+filter_1 <- flights %>% 
+  filter(year == 2013 & month == 1)
 
 ```
 
+Voos de janeiro ou fevereiro de 2013:
+```{r}
+filter_2 <- flights %>% 
+  filter(year == 2013 & ( month == 1 | month == 2 ))
+```
+
+Vôos com distância maior do que 1000 milhas.
+
+```{r}
+filter_3 <- flights %>% 
+  filter(distance > 1000)
+```
+
+#filter
+
+Com as colunas month e dep_delay:
+```{r}
+
+select_1 <- flights %>% 
+  select(month, dep_delay)
+
+```
+
+Com as colunas month e dep_delay, os nomes dessas colunas devem ser mes e atraso:
+
+```{r} 
+
+select_2 <- flights %>% 
+  select(mes = month, atraso = dep_delay)
+
+```
+
+Sem as colunbas tailnum, origin e dest
+
+```{r}  
+
+select_3 <- flights %>% 
+  select(-tailnum, -origin, -dest)
+
+```
+
+#mutate
+
+Ganho de tempo:
+
+```{r}
+
+mutate_1 <- flights %>%
+  select(dep_delay, arr_delay, distance, air_time) %>% 
+  mutate(ganho_tempo = dep_delay - arr_delay, velocidade = distance / air_time * 60)
+
+```
+
+Horário de chegada: 
+
+```{r}
+
+mutate_2 <- flights %>%
+  select(hour, minute, air_time) %>% 
+  mutate(hour2 = as.integer( ( hour*60 + minute + air_time ) / 60 ), minute2 = hour*60 + minute + air_time - hour2*60)
+
+```
+
+#summarise
+
+Média da distância de todos os vôos:
+
+```{r}
+
+summarise_1 <- flights %>% 
+  summarise(mean(distance))
+
+```
+
+```{r}
+
+summarise_2 <- flights %>% 
+  group_by(month) %>% 
+  summarise(mean(distance))
+
+```
+
+```{r}
+
+summarise_3 <- flights %>% 
+  group_by(month) %>% 
+  summarise(mean(air_time), median(air_time))
+
+```
+
+#arrange
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+#spread
+```{r}
+
+```
+
+```{r}
+
+```
+
+#gather
+
+```{r}
+
+```
