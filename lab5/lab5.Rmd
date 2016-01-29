@@ -78,9 +78,12 @@ img_df_parte1_tree <- cbind(img_df_parte1, predito_tree)
 
 img_df_parte1_tree$predito_tree[img_df_parte1_tree$predito_tree < 0] = 0
 
-sum((img_df_parte1_lm$b_backup - img_df_parte1_lm$predito_lm)^2)
+mean(sum((img_df_parte1_lm$b_backup - img_df_parte1_lm$predito_lm)^2))
 
-sum(img_df_parte1_tree$b_backup - img_df_parte1_tree$predito_tree)
+mean(sum((img_df_parte1_tree$b_backup - img_df_parte1_tree$predito_tree)^2))
+
+jpg_predito_lm <- rgb(img_df_parte1_lm$r, img_df_parte1_lm$g, img_df_parte1_lm$b)
+
 
 # tratar valores negativos
 
