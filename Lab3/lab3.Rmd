@@ -6,6 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+library(magrittr)
 library(dplyr)
 #install.packages("nycflights13")
 
@@ -14,9 +15,11 @@ library(nycflights13)
 flights %>% tbl_df
 
 ```
+
 #select
 
 Voos de janeiro de 2013:
+
 ```{r}
 filter_1 <- flights %>% 
   filter(year == 2013 & month == 1)
@@ -107,9 +110,16 @@ summarise_2 <- flights %>%
 
 ```{r}
 
-summarise_3 <- flights %>% 
+summarise_3 <- flights %>%
   group_by(month) %>% 
   summarise(mean(air_time), median(air_time))
+
+# A função quantile estava falhando com o pipe.
+air_time_tmp <- flights %>% 
+  group_by(month) %>% 
+  select(air_time)
+
+quantis <- quantile(air_time_tmp, c(.25, .75) na.rm = TRUE))
 
 ```
 
