@@ -100,6 +100,7 @@ summarise_1 <- flights %>%
 
 ```
 
+Média da distância dos vôos por mês:
 ```{r}
 
 summarise_2 <- flights %>% 
@@ -112,14 +113,13 @@ summarise_2 <- flights %>%
 
 summarise_3 <- flights %>%
   group_by(month) %>% 
-  summarise(mean(air_time), median(air_time))
+  summarise(mean(air_time, na.rm = TRUE), median(air_time, na.rm = TRUE))
 
-# A função quantile estava falhando com o pipe.
-air_time_tmp <- flights %>% 
-  group_by(month) %>% 
-  select(air_time)
+# A função quantile estava falhando com o summarise acima.
+quartis <- flights %>% 
+  group_by(month) %>% do(q=quantile(.$air_time, c(0.25, 0.75), na.rm = TRUE))
 
-quantis <- quantile(air_time_tmp, c(.25, .75) na.rm = TRUE))
+quartis$q
 
 ```
 
