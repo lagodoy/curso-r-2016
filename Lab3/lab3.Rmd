@@ -144,7 +144,7 @@ arrange_2 <- flights %>%
 
 Crie uma tabela em que cada linha é um dia e cada coluna é o atraso médio de partida por mês.
 ```{r}
-flights %>% 
+spread_1 <- flights %>% 
   group_by(day, month) %>% 
   summarise(media = mean(dep_delay, na.rm = TRUE)) %>% 
   spread(month, media) %>% head()
@@ -155,7 +155,7 @@ Repita a mesma operação, mas dessa vez cada coluna será uma hora do dia.
 
 ```{r}
 
-flights %>% 
+spread_2 <- flights %>% 
   group_by(hour, day) %>% 
   summarise(media = mean(dep_delay, na.rm = TRUE)) %>% 
   spread(day, media) %>% head()
@@ -169,5 +169,6 @@ Considerando as tabelas criadas nas perguntas sobre o spread:
 Transforme-as em um formato tidy.
 
 ```{r}
+gather_1 <- spread_1  %>% gather(mes, delay, -day)
 
 ```
