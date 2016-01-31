@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 library(magrittr)
 library(dplyr)
-#install.packages("nycflights13")
+install.packages("nycflights13")
 
 library(nycflights13)
 
@@ -120,29 +120,53 @@ quartis <- flights %>%
   group_by(month) %>% do(q=quantile(.$air_time, c(0.25, 0.75), na.rm = TRUE))
 
 quartis$q
-
 ```
 
 #arrange
 
-```{r}
+Ordene a base de dados pelo atraso na partida em ordem crescente.
 
+```{r}
+arrange_1 <- flights %>% 
+  arrange(dep_delay)
 ```
 
+Repita a questão anterior, porém na ordem decrescente.
+
 ```{r}
+
+arrange_2 <- flights %>% 
+  arrange(desc(dep_delay)) 
 
 ```
 
 #spread
+
+Crie uma tabela em que cada linha é um dia e cada coluna é o atraso médio de partida por mês.
 ```{r}
+flights %>% 
+  group_by(day, month) %>% 
+  summarise(media = mean(dep_delay, na.rm = TRUE)) %>% 
+  spread(month, media) %>% head()
 
 ```
 
+Repita a mesma operação, mas dessa vez cada coluna será uma hora do dia.
+
 ```{r}
+
+flights %>% 
+  group_by(hour, day) %>% 
+  summarise(media = mean(dep_delay, na.rm = TRUE)) %>% 
+  spread(day, media) %>% head()
 
 ```
 
 #gather
+
+Considerando as tabelas criadas nas perguntas sobre o spread:
+
+Transforme-as em um formato tidy.
 
 ```{r}
 
