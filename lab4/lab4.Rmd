@@ -84,24 +84,73 @@ diamonds %>%
 
 # geom_bar
 ## Quais são os aspectos estéticos (aesthetics) exigidos (obrigatórios) da função geom_bar()?
+Apenas x é um aspecto estético obrigatório para geom_bar().
 
 ## Faça um gráfico de barras do número de diamantes em cada categoria da variável cor (color).
 
+```{r}
+
+diamonds %>% 
+  ggplot(aes(color)) + geom_bar()
+
+```
+
 # Outra base de dados
-## A partir de agora utilizaremos a base de dados economics para fazer os gráficos. Alguns exercícios exigirão manipulações na base de dados, que devem ser feitas usando dplyr e tidyr, antes da construção dos gráficos. Esse tipo de manipulação é muito comum para a construção dos gráficos.
 
 ## Faça um gráfico de dispersão do número de desempregados (eixo x) pelo tempo médio de desemprego (eixo y). Não se esqueça de alterar o label dos eixos.
 
+economics 
+```{r}
+economics %>% 
+  ggplot(aes(unemploy, uempmed)) + geom_point() + xlab("Desempregados") + ylab("Tempo médio de desemprego")
+
+```
+
 ## Faça o mesmo gráfico do exercício anterior, no entanto, os pontos devem ter cores diferentes para cada ano, seguindo uma escala contínua.
 
+```{r}
+
+library(lubridate)
+economics %>% 
+  ggplot(aes(unemploy, uempmed, color=year(date))) + geom_point() + xlab("Desempregados") + ylab("Tempo médio de desemprego")
+         
+```
 
 ## Faça um gráfico de linha do número de desempregados (eixo y) e a data (eixo x).
 
+```{r}
+economics %>% 
+  ggplot(aes(date, unemploy)) + geom_line() + ylab("Desempregados") + xlab("Data")
+
+```
+
+
 ## Repita o gráfico anterior, no entanto desta vez a periodicidade deve ser anual e o valor apresentado no eixo y deve ser o número médio de desempregados.
+```{r}
 
+ano = year(economics$date)
 
+economics  %>%
+  cbind(ano) %>% 
+  group_by(ano) %>% 
+  summarise(media_desem = mean(unemploy)) %>% 
+  ggplot(aes(ano, media_desem, group = 1)) + geom_line() + xlab("Ano") + ylab("Número médio de desempregados")
+
+```
 
 ## Tente reproduzir o seguinte gráfico:
+
+```{r}
+ano = year(economics$date)
+
+economics  %>%
+  cbind(ano) %>% 
+  group_by(ano) %>% 
+  summarise(media_desem = mean(unemploy)) %>% 
+  ggplot(aes(ano, media_desem, group = 1)) + geom_line() + xlab("Ano") + ylab("Número médio de desempregados") + geom_ribbon()
+
+```
+
 
 ### linha é a mediana de desempregados por ano
 ### limite inferior da banda é o quantil de 1% do número de desempregados
