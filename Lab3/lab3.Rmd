@@ -124,12 +124,19 @@ quartis$q
 ```
 
 #arrange
-
+Base de dados ordenada pelo atraso na partida, em ordem crescente:
 ```{r}
+
+arrange_1 <- flights %>% 
+  arrange(dep_delay)
 
 ```
+Base de dados ordenada pelo atraso na partida, em ordem decrescente:
 
 ```{r}
+
+arrange_2 <- flights %>% 
+  arrange(desc(dep_delay))
 
 ```
 
