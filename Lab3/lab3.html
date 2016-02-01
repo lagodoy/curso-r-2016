@@ -69,42 +69,339 @@ img {
 
 <div id="select" class="section level1">
 <h1>select</h1>
-<p>Voos de janeiro de 2013:</p>
+<p>Vôos de janeiro de 2013:</p>
 <pre class="r"><code>filter_1 &lt;- flights %&gt;% 
-  filter(year == 2013 &amp; month == 1)</code></pre>
-<p>Voos de janeiro ou fevereiro de 2013:</p>
+  filter(year == 2013 &amp; month == 1)
+
+head(filter_1)</code></pre>
+<pre><code>## Source: local data frame [6 x 16]
+## 
+##    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum
+##   (int) (int) (int)    (int)     (dbl)    (int)     (dbl)   (chr)   (chr)
+## 1  2013     1     1      517         2      830        11      UA  N14228
+## 2  2013     1     1      533         4      850        20      UA  N24211
+## 3  2013     1     1      542         2      923        33      AA  N619AA
+## 4  2013     1     1      544        -1     1004       -18      B6  N804JB
+## 5  2013     1     1      554        -6      812       -25      DL  N668DN
+## 6  2013     1     1      554        -4      740        12      UA  N39463
+## Variables not shown: flight (int), origin (chr), dest (chr), air_time
+##   (dbl), distance (dbl), hour (dbl), minute (dbl)</code></pre>
+<p>Vôos de janeiro ou fevereiro de 2013:</p>
 <pre class="r"><code>filter_2 &lt;- flights %&gt;% 
-  filter(year == 2013 &amp; ( month == 1 | month == 2 ))</code></pre>
+  filter(year == 2013 &amp; ( month == 1 | month == 2 ))
+
+head(filter_2)</code></pre>
+<pre><code>## Source: local data frame [6 x 16]
+## 
+##    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum
+##   (int) (int) (int)    (int)     (dbl)    (int)     (dbl)   (chr)   (chr)
+## 1  2013     1     1      517         2      830        11      UA  N14228
+## 2  2013     1     1      533         4      850        20      UA  N24211
+## 3  2013     1     1      542         2      923        33      AA  N619AA
+## 4  2013     1     1      544        -1     1004       -18      B6  N804JB
+## 5  2013     1     1      554        -6      812       -25      DL  N668DN
+## 6  2013     1     1      554        -4      740        12      UA  N39463
+## Variables not shown: flight (int), origin (chr), dest (chr), air_time
+##   (dbl), distance (dbl), hour (dbl), minute (dbl)</code></pre>
 <p>Vôos com distância maior do que 1000 milhas.</p>
 <pre class="r"><code>filter_3 &lt;- flights %&gt;% 
-  filter(distance &gt; 1000)</code></pre>
+  filter(distance &gt; 1000)
+
+head(filter_3)</code></pre>
+<pre><code>## Source: local data frame [6 x 16]
+## 
+##    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum
+##   (int) (int) (int)    (int)     (dbl)    (int)     (dbl)   (chr)   (chr)
+## 1  2013     1     1      517         2      830        11      UA  N14228
+## 2  2013     1     1      533         4      850        20      UA  N24211
+## 3  2013     1     1      542         2      923        33      AA  N619AA
+## 4  2013     1     1      544        -1     1004       -18      B6  N804JB
+## 5  2013     1     1      555        -5      913        19      B6  N516JB
+## 6  2013     1     1      558        -2      849        -2      B6  N793JB
+## Variables not shown: flight (int), origin (chr), dest (chr), air_time
+##   (dbl), distance (dbl), hour (dbl), minute (dbl)</code></pre>
 </div>
 <div id="filter" class="section level1">
 <h1>filter</h1>
 <p>Com as colunas month e dep_delay:</p>
 <pre class="r"><code>select_1 &lt;- flights %&gt;% 
-  select(month, dep_delay)</code></pre>
+  select(month, dep_delay)
+
+head(select_1)</code></pre>
+<pre><code>## Source: local data frame [6 x 2]
+## 
+##   month dep_delay
+##   (int)     (dbl)
+## 1     1         2
+## 2     1         4
+## 3     1         2
+## 4     1        -1
+## 5     1        -6
+## 6     1        -4</code></pre>
 <p>Com as colunas month e dep_delay, os nomes dessas colunas devem ser mes e atraso:</p>
 <pre class="r"><code>select_2 &lt;- flights %&gt;% 
-  select(month, dep_delay)</code></pre>
+  select(mes = month, atraso = dep_delay)
+
+head(select_2)</code></pre>
+<pre><code>## Source: local data frame [6 x 2]
+## 
+##     mes atraso
+##   (int)  (dbl)
+## 1     1      2
+## 2     1      4
+## 3     1      2
+## 4     1     -1
+## 5     1     -6
+## 6     1     -4</code></pre>
 <p>Sem as colunbas tailnum, origin e dest</p>
 <pre class="r"><code>select_3 &lt;- flights %&gt;% 
-  select(-tailnum, -origin, -dest)</code></pre>
+  select(-tailnum, -origin, -dest)
+
+head(select_3)</code></pre>
+<pre><code>## Source: local data frame [6 x 13]
+## 
+##    year month   day dep_time dep_delay arr_time arr_delay carrier flight
+##   (int) (int) (int)    (int)     (dbl)    (int)     (dbl)   (chr)  (int)
+## 1  2013     1     1      517         2      830        11      UA   1545
+## 2  2013     1     1      533         4      850        20      UA   1714
+## 3  2013     1     1      542         2      923        33      AA   1141
+## 4  2013     1     1      544        -1     1004       -18      B6    725
+## 5  2013     1     1      554        -6      812       -25      DL    461
+## 6  2013     1     1      554        -4      740        12      UA   1696
+## Variables not shown: air_time (dbl), distance (dbl), hour (dbl), minute
+##   (dbl)</code></pre>
 </div>
 <div id="mutate" class="section level1">
 <h1>mutate</h1>
+<p>Ganho de tempo:</p>
+<pre class="r"><code>mutate_1 &lt;- flights %&gt;%
+  select(dep_delay, arr_delay, distance, air_time) %&gt;% 
+  mutate(ganho_tempo = dep_delay - arr_delay, velocidade = distance / air_time * 60)
+
+head(mutate_1)</code></pre>
+<pre><code>## Source: local data frame [6 x 6]
+## 
+##   dep_delay arr_delay distance air_time ganho_tempo velocidade
+##       (dbl)     (dbl)    (dbl)    (dbl)       (dbl)      (dbl)
+## 1         2        11     1400      227          -9   370.0441
+## 2         4        20     1416      227         -16   374.2731
+## 3         2        33     1089      160         -31   408.3750
+## 4        -1       -18     1576      183          17   516.7213
+## 5        -6       -25      762      116          19   394.1379
+## 6        -4        12      719      150         -16   287.6000</code></pre>
+<p>Horário de chegada:</p>
+<pre class="r"><code>mutate_2 &lt;- flights %&gt;%
+  select(hour, minute, air_time) %&gt;% 
+  mutate(hour2 = as.integer( ( hour*60 + minute + air_time ) / 60 ), minute2 = hour*60 + minute + air_time - hour2*60)
+
+head(mutate_2)</code></pre>
+<pre><code>## Source: local data frame [6 x 5]
+## 
+##    hour minute air_time hour2 minute2
+##   (dbl)  (dbl)    (dbl) (int)   (dbl)
+## 1     5     17      227     9       4
+## 2     5     33      227     9      20
+## 3     5     42      160     8      22
+## 4     5     44      183     8      47
+## 5     5     54      116     7      50
+## 6     5     54      150     8      24</code></pre>
 </div>
 <div id="summarise" class="section level1">
 <h1>summarise</h1>
+<p>Média da distância de todos os vôos:</p>
+<pre class="r"><code>summarise_1 &lt;- flights %&gt;% 
+  summarise(mean(distance))
+
+head(summarise_1)</code></pre>
+<pre><code>## Source: local data frame [1 x 1]
+## 
+##   mean(distance)
+##            (dbl)
+## 1       1039.913</code></pre>
+<p>Média da distância dos vôos por mês:</p>
+<pre class="r"><code>summarise_2 &lt;- flights %&gt;% 
+  group_by(month) %&gt;% 
+  summarise(mean(distance))
+
+head(summarise_2)</code></pre>
+<pre><code>## Source: local data frame [6 x 2]
+## 
+##   month mean(distance)
+##   (int)          (dbl)
+## 1     1       1006.844
+## 2     2       1000.982
+## 3     3       1011.987
+## 4     4       1038.733
+## 5     5       1040.913
+## 6     6       1057.125</code></pre>
+<pre class="r"><code>summarise_3 &lt;- flights %&gt;%
+  group_by(month) %&gt;% 
+  summarise(mean(air_time, na.rm = TRUE), median(air_time, na.rm = TRUE))
+
+# A função quantile estava falhando com o summarise acima.
+quartis &lt;- flights %&gt;% 
+  group_by(month) %&gt;% do(q=quantile(.$air_time, c(0.25, 0.75), na.rm = TRUE))
+
+head(summarise_3)</code></pre>
+<pre><code>## Source: local data frame [6 x 3]
+## 
+##   month mean(air_time, na.rm = TRUE) median(air_time, na.rm = TRUE)
+##   (int)                        (dbl)                          (dbl)
+## 1     1                     154.1874                            137
+## 2     2                     151.3464                            136
+## 3     3                     149.0770                            132
+## 4     4                     153.1011                            133
+## 5     5                     145.7275                            122
+## 6     6                     150.3252                            127</code></pre>
+<pre class="r"><code>quartis$q</code></pre>
+<pre><code>## [[1]]
+## 25% 75% 
+##  84 194 
+## 
+## [[2]]
+## 25% 75% 
+##  83 192 
+## 
+## [[3]]
+## 25% 75% 
+##  82 190 
+## 
+## [[4]]
+## 25% 75% 
+##  84 194 
+## 
+## [[5]]
+## 25% 75% 
+##  77 188 
+## 
+## [[6]]
+## 25% 75% 
+##  81 192 
+## 
+## [[7]]
+## 25% 75% 
+##  79 190 
+## 
+## [[8]]
+## 25% 75% 
+##  81 189 
+## 
+## [[9]]
+## 25% 75% 
+##  77 182 
+## 
+## [[10]]
+## 25% 75% 
+##  81 191 
+## 
+## [[11]]
+## 25% 75% 
+##  87 196 
+## 
+## [[12]]
+## 25% 75% 
+##  93 202</code></pre>
 </div>
 <div id="arrange" class="section level1">
 <h1>arrange</h1>
+<p>Ordene a base de dados pelo atraso na partida em ordem crescente.</p>
+<pre class="r"><code>arrange_1 &lt;- flights %&gt;% 
+  arrange(dep_delay)
+
+head(arrange_1)</code></pre>
+<pre><code>## Source: local data frame [6 x 16]
+## 
+##    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum
+##   (int) (int) (int)    (int)     (dbl)    (int)     (dbl)   (chr)   (chr)
+## 1  2013    12     7     2040       -43       40        48      B6  N592JB
+## 2  2013     2     3     2022       -33     2240       -58      DL  N612DL
+## 3  2013    11    10     1408       -32     1549       -10      EV  N825AS
+## 4  2013     1    11     1900       -30     2233       -10      DL  N934DL
+## 5  2013     1    29     1703       -27     1947       -10      F9  N208FR
+## 6  2013     8     9      729       -26     1002         7      MQ  N711MQ
+## Variables not shown: flight (int), origin (chr), dest (chr), air_time
+##   (dbl), distance (dbl), hour (dbl), minute (dbl)</code></pre>
+<p>Repita a questão anterior, porém na ordem decrescente.</p>
+<pre class="r"><code>arrange_2 &lt;- flights %&gt;% 
+  arrange(desc(dep_delay)) 
+
+head(arrange_2)</code></pre>
+<pre><code>## Source: local data frame [6 x 16]
+## 
+##    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum
+##   (int) (int) (int)    (int)     (dbl)    (int)     (dbl)   (chr)   (chr)
+## 1  2013     1     9      641      1301     1242      1272      HA  N384HA
+## 2  2013     6    15     1432      1137     1607      1127      MQ  N504MQ
+## 3  2013     1    10     1121      1126     1239      1109      MQ  N517MQ
+## 4  2013     9    20     1139      1014     1457      1007      AA  N338AA
+## 5  2013     7    22      845      1005     1044       989      MQ  N665MQ
+## 6  2013     4    10     1100       960     1342       931      DL  N959DL
+## Variables not shown: flight (int), origin (chr), dest (chr), air_time
+##   (dbl), distance (dbl), hour (dbl), minute (dbl)</code></pre>
 </div>
 <div id="spread" class="section level1">
 <h1>spread</h1>
+<p>Crie uma tabela em que cada linha é um dia e cada coluna é o atraso médio de partida por mês.</p>
+<pre class="r"><code>spread_1 &lt;- flights %&gt;% 
+  group_by(day, month) %&gt;% 
+  summarise(media = mean(dep_delay, na.rm = TRUE)) %&gt;% 
+  spread(month, media)
+
+head(spread_1)</code></pre>
+<pre><code>## Source: local data frame [6 x 13]
+## Groups: day [6]
+## 
+##     day         1         2         3         4         5         6
+##   (int)     (dbl)     (dbl)     (dbl)     (dbl)     (dbl)     (dbl)
+## 1     1 11.548926 10.852909 11.015890 12.421436  2.903427  2.778220
+## 2     2 13.858824  5.422059  8.026525  8.260204  6.388548 34.013366
+## 3     3 10.987832  7.018868  6.065934  3.452525 14.181535 25.309698
+## 4     4  8.951595 10.924078  4.753910  6.963265  8.820270  4.111925
+## 5     5  5.732218  5.322727  5.018162  5.905102  4.577387  4.878756
+## 6     6  7.148014  5.621501 21.012626  4.950521  7.595701  5.056760
+## Variables not shown: 7 (dbl), 8 (dbl), 9 (dbl), 10 (dbl), 11 (dbl), 12
+##   (dbl)</code></pre>
+<p>Repita a mesma operação, mas dessa vez cada coluna será uma hora do dia.</p>
+<pre class="r"><code>spread_2 &lt;- flights %&gt;% 
+  group_by(hour, day) %&gt;% 
+  summarise(media = mean(dep_delay, na.rm = TRUE)) %&gt;% 
+  spread(day, media)
+
+head(spread_2)</code></pre>
+<pre><code>## Source: local data frame [6 x 32]
+## Groups: hour [6]
+## 
+##    hour          1          2          3      4          5          6
+##   (dbl)      (dbl)      (dbl)      (dbl)  (dbl)      (dbl)      (dbl)
+## 1     0 120.142857 127.387097  91.600000  34.50 102.882353  39.555556
+## 2     1 150.875000 185.714286 202.000000 218.50 159.333333 257.000000
+## 3     2         NA 324.000000 156.000000     NA         NA         NA
+## 4     3         NA 348.000000         NA     NA         NA         NA
+## 5     4  -6.100000  -6.500000  -4.571429  -6.00  -7.300000  -6.181818
+## 6     5  -4.564854  -4.620553  -4.427273  -4.68  -4.734375  -4.592885
+## Variables not shown: 7 (dbl), 8 (dbl), 9 (dbl), 10 (dbl), 11 (dbl), 12
+##   (dbl), 13 (dbl), 14 (dbl), 15 (dbl), 16 (dbl), 17 (dbl), 18 (dbl), 19
+##   (dbl), 20 (dbl), 21 (dbl), 22 (dbl), 23 (dbl), 24 (dbl), 25 (dbl), 26
+##   (dbl), 27 (dbl), 28 (dbl), 29 (dbl), 30 (dbl), 31 (dbl)</code></pre>
 </div>
 <div id="gather" class="section level1">
 <h1>gather</h1>
+<p>Considerando as tabelas criadas nas perguntas sobre o spread:</p>
+<p>Transforme-as em um formato tidy.</p>
+<pre class="r"><code>gather_1 &lt;- spread_1  %&gt;% gather(mes, delay, -day)
+
+head(gather_1)</code></pre>
+<pre><code>## Source: local data frame [6 x 3]
+## Groups: day [6]
+## 
+##     day   mes     delay
+##   (int) (chr)     (dbl)
+## 1     1     1 11.548926
+## 2     2     1 13.858824
+## 3     3     1 10.987832
+## 4     4     1  8.951595
+## 5     5     1  5.732218
+## 6     6     1  7.148014</code></pre>
 </div>
 
 
