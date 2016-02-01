@@ -1,6 +1,6 @@
 ---
-title: "lab3"
-author: "curso R de verão 2016"
+title: "Laboratório 3"
+author: "Leonardo Alves Godoy"
 date: "22 de janeiro de 2016"
 output: html_document
 ---
@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 library(magrittr)
 library(dplyr)
+library(tidyr)
 #install.packages("nycflights13")
 
 library(nycflights13)
@@ -18,18 +19,22 @@ flights %>% tbl_df
 
 #select
 
-Voos de janeiro de 2013:
+Vôos de janeiro de 2013:
 
 ```{r}
 filter_1 <- flights %>% 
   filter(year == 2013 & month == 1)
 
+head(filter_1)
+
 ```
 
-Voos de janeiro ou fevereiro de 2013:
+Vôos de janeiro ou fevereiro de 2013:
 ```{r}
 filter_2 <- flights %>% 
   filter(year == 2013 & ( month == 1 | month == 2 ))
+
+head(filter_2)
 ```
 
 Vôos com distância maior do que 1000 milhas.
@@ -37,6 +42,8 @@ Vôos com distância maior do que 1000 milhas.
 ```{r}
 filter_3 <- flights %>% 
   filter(distance > 1000)
+
+head(filter_3)
 ```
 
 #filter
@@ -47,6 +54,8 @@ Com as colunas month e dep_delay:
 select_1 <- flights %>% 
   select(month, dep_delay)
 
+head(select_1)
+
 ```
 
 Com as colunas month e dep_delay, os nomes dessas colunas devem ser mes e atraso:
@@ -56,6 +65,8 @@ Com as colunas month e dep_delay, os nomes dessas colunas devem ser mes e atraso
 select_2 <- flights %>% 
   select(mes = month, atraso = dep_delay)
 
+head(select_2)
+
 ```
 
 Sem as colunbas tailnum, origin e dest
@@ -64,6 +75,8 @@ Sem as colunbas tailnum, origin e dest
 
 select_3 <- flights %>% 
   select(-tailnum, -origin, -dest)
+
+head(select_3)
 
 ```
 
@@ -77,6 +90,8 @@ mutate_1 <- flights %>%
   select(dep_delay, arr_delay, distance, air_time) %>% 
   mutate(ganho_tempo = dep_delay - arr_delay, velocidade = distance / air_time * 60)
 
+head(mutate_1)
+
 ```
 
 Horário de chegada: 
@@ -86,6 +101,8 @@ Horário de chegada:
 mutate_2 <- flights %>%
   select(hour, minute, air_time) %>% 
   mutate(hour2 = as.integer( ( hour*60 + minute + air_time ) / 60 ), minute2 = hour*60 + minute + air_time - hour2*60)
+
+head(mutate_2)
 
 ```
 
@@ -98,6 +115,8 @@ Média da distância de todos os vôos:
 summarise_1 <- flights %>% 
   summarise(mean(distance))
 
+head(summarise_1)
+
 ```
 
 Média da distância dos vôos por mês:
@@ -106,6 +125,8 @@ Média da distância dos vôos por mês:
 summarise_2 <- flights %>% 
   group_by(month) %>% 
   summarise(mean(distance))
+
+head(summarise_2)
 
 ```
 
@@ -119,38 +140,68 @@ summarise_3 <- flights %>%
 quartis <- flights %>% 
   group_by(month) %>% do(q=quantile(.$air_time, c(0.25, 0.75), na.rm = TRUE))
 
-quartis$q
+head(summarise_3)
 
+quartis$q
 ```
 
 #arrange
-Base de dados ordenada pelo atraso na partida, em ordem crescente:
-```{r}
 
+Ordene a base de dados pelo atraso na partida em ordem crescente.
+
+```{r}
 arrange_1 <- flights %>% 
   arrange(dep_delay)
 
+head(arrange_1)
 ```
-Base de dados ordenada pelo atraso na partida, em ordem decrescente:
+
+Repita a questão anterior, porém na ordem decrescente.
 
 ```{r}
 
 arrange_2 <- flights %>% 
-  arrange(desc(dep_delay))
+  arrange(desc(dep_delay)) 
+
+head(arrange_2)
 
 ```
 
 #spread
+
+Crie uma tabela em que cada linha é um dia e cada coluna é o atraso médio de partida por mês.
 ```{r}
+spread_1 <- flights %>% 
+  group_by(day, month) %>% 
+  summarise(media = mean(dep_delay, na.rm = TRUE)) %>% 
+  spread(month, media)
+
+head(spread_1)
 
 ```
 
+Repita a mesma operação, mas dessa vez cada coluna será uma hora do dia.
+
 ```{r}
+
+spread_2 <- flights %>% 
+  group_by(hour, day) %>% 
+  summarise(media = mean(dep_delay, na.rm = TRUE)) %>% 
+  spread(day, media)
+
+head(spread_2)
 
 ```
 
 #gather
 
+Considerando as tabelas criadas nas perguntas sobre o spread:
+
+Transforme-as em um formato tidy.
+
 ```{r}
+gather_1 <- spread_1  %>% gather(mes, delay, -day)
+
+head(gather_1)
 
 ```
