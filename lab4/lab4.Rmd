@@ -18,14 +18,22 @@ help(geom_point)
 
 ```
 
+# geom_point
+
+## Quais são os aspectos estéticos (aesthetics) exigidos (obrigatórios) da função geom_point()?
+
 Os aspectos estéticos obrigatórios são x e y.
 
+
+## Gráfico de dispersão do preço (price) pela variável quilates (carat). Utilize as funções xlab() e ylab() para trocar os labels dos eixos x e y, respectivamente:
 ```{r}
 
 diamonds %>%
   ggplot(aes(x=price,y=carat)) + xlab("Preço") + ylab("Quilates") + geom_point()
 
 ```
+
+## Gráficos de dispersão do preço pela variável quilate para cada nível da variável claridade (clarity), utilizando facets:
 
 ```{r}
 
@@ -34,14 +42,69 @@ diamonds %>%
 
 ```
 
+# geom_histogram
+
+##Quais são os aspectos estéticos (aesthetics) exigidos (obrigatórios) da função geom_histogram()?
 Somente x é um aspecto estético obrigatório.
+
+## histograma da variável preço: 
 ```{r}
 diamonds %>% 
   ggplot(aes(x=price)) + geom_histogram(colour="black", fill="blue")
 ```
+
+## Adicionar ao gráfico anterior uma estimativa suavizada da densidade com a função geom_density():
 
 ```{r}
 diamonds %>% 
   ggplot(aes(x=price)) + geom_histogram(colour="black", fill="blue") %>% 
   + geom_density()
 ```
+
+# geom_boxplot
+## Quais são os aspectos estéticos (aesthetics) exigidos (obrigatórios) da função geom_boxplot()?
+Os aspectoos obrigatórios são lower, middle, upper, x, ymax e ymin.
+
+## Faça boxplots da variável preço coloridos de acordo com a variável corte (cut).
+
+```{r}
+diamonds %>% 
+  ggplot(aes(cut, price)) + geom_boxplot(aes(colour=cut))
+   
+```
+
+## Substitua as cores padrões e remova a legenda do gráfico anterior. (Dica: use a função scale_colour_manual)
+
+```{r}
+
+diamonds %>% 
+  ggplot(aes(cut, price)) + geom_boxplot(aes(colour=cut)) + scale_colour_manual(labels=c("Fair"="", "Good" = "", "Very Good" = "", "Premium" = "", "Ideal" = ""), values=c("blue", "green", "red", "pink", "grey50"))
+
+```
+
+# geom_bar
+## Quais são os aspectos estéticos (aesthetics) exigidos (obrigatórios) da função geom_bar()?
+
+## Faça um gráfico de barras do número de diamantes em cada categoria da variável cor (color).
+
+# Outra base de dados
+## A partir de agora utilizaremos a base de dados economics para fazer os gráficos. Alguns exercícios exigirão manipulações na base de dados, que devem ser feitas usando dplyr e tidyr, antes da construção dos gráficos. Esse tipo de manipulação é muito comum para a construção dos gráficos.
+
+## Faça um gráfico de dispersão do número de desempregados (eixo x) pelo tempo médio de desemprego (eixo y). Não se esqueça de alterar o label dos eixos.
+
+## Faça o mesmo gráfico do exercício anterior, no entanto, os pontos devem ter cores diferentes para cada ano, seguindo uma escala contínua.
+
+
+## Faça um gráfico de linha do número de desempregados (eixo y) e a data (eixo x).
+
+## Repita o gráfico anterior, no entanto desta vez a periodicidade deve ser anual e o valor apresentado no eixo y deve ser o número médio de desempregados.
+
+
+
+## Tente reproduzir o seguinte gráfico:
+
+### linha é a mediana de desempregados por ano
+### limite inferior da banda é o quantil de 1% do número de desempregados
+### limtie superior da banda é o quantil de 99% do número de desempregados
+
+## Afim de comparar a evolução no tempo dos índices pce, psaver e taxa de desemprego (unemploy/pop), tente refazer o seguinte gráfico.
