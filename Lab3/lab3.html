@@ -237,14 +237,10 @@ head(summarise_2)</code></pre>
 <p>Média, mediana, primeiro quartil e terceiro quartil do tempo de viagem por mês:</p>
 <pre class="r"><code>summarise_3 &lt;- flights %&gt;%
   group_by(month) %&gt;% 
-  summarise(mean(air_time, na.rm = TRUE), median(air_time, na.rm = TRUE))
+  summarise(mean(air_time, na.rm = TRUE), median(air_time, na.rm = TRUE), primeiro_q = quantile(air_time, probs = c(0.25), na.rm = TRUE), terceiro_q = quantile(air_time, probs = c(0.75), na.rm =TRUE))
 
-# A função quantile estava falhando com o summarise acima.
-quartis &lt;- flights %&gt;% 
-  group_by(month) %&gt;% do(q=quantile(.$air_time, c(0.25, 0.75), na.rm = TRUE))
-
-head(summarise_3)</code></pre>
-<pre><code>## Source: local data frame [6 x 3]
+head(summarise_3) %&gt;% tbl_df()</code></pre>
+<pre><code>## Source: local data frame [6 x 5]
 ## 
 ##   month mean(air_time, na.rm = TRUE) median(air_time, na.rm = TRUE)
 ##   (int)                        (dbl)                          (dbl)
@@ -253,55 +249,8 @@ head(summarise_3)</code></pre>
 ## 3     3                     149.0770                            132
 ## 4     4                     153.1011                            133
 ## 5     5                     145.7275                            122
-## 6     6                     150.3252                            127</code></pre>
-<pre class="r"><code>quartis$q</code></pre>
-<pre><code>## [[1]]
-## 25% 75% 
-##  84 194 
-## 
-## [[2]]
-## 25% 75% 
-##  83 192 
-## 
-## [[3]]
-## 25% 75% 
-##  82 190 
-## 
-## [[4]]
-## 25% 75% 
-##  84 194 
-## 
-## [[5]]
-## 25% 75% 
-##  77 188 
-## 
-## [[6]]
-## 25% 75% 
-##  81 192 
-## 
-## [[7]]
-## 25% 75% 
-##  79 190 
-## 
-## [[8]]
-## 25% 75% 
-##  81 189 
-## 
-## [[9]]
-## 25% 75% 
-##  77 182 
-## 
-## [[10]]
-## 25% 75% 
-##  81 191 
-## 
-## [[11]]
-## 25% 75% 
-##  87 196 
-## 
-## [[12]]
-## 25% 75% 
-##  93 202</code></pre>
+## 6     6                     150.3252                            127
+## Variables not shown: primeiro_q (dbl), terceiro_q (dbl)</code></pre>
 </div>
 <div id="arrange" class="section level1">
 <h1>arrange</h1>
