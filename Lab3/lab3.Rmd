@@ -1,6 +1,6 @@
 ---
-title: "lab3"
-author: "curso R de verão 2016"
+title: "Laboratório 3"
+author: "Leonardo Alves Godoy"
 date: "22 de janeiro de 2016"
 output: html_document
 ---
