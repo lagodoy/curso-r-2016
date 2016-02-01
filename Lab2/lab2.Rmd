@@ -74,7 +74,7 @@ summary(pnud_rda[,1:10])
 
 ```
 
-# RDS
+## RDS
 
 
 ```{r}
@@ -92,7 +92,7 @@ summary(pnud_rds[,1:10])
 
 ```
 
-# SQLite
+## SQLite
 
 ```{r}
 
@@ -117,9 +117,9 @@ file.remove(tmp)
 
 ```
 
-Parte 2
+# Parte 2
 
-Carregamento do arquivo do pnud simplificado:
+## Carregamento do arquivo do pnud simplificado:
 ```{r}
 
 library(dplyr)
@@ -132,13 +132,9 @@ pnud <- readRDS(tmp)
 file.remove(tmp)
 ```
 
-Seis municípios com os maiores IDH municipais em 2010:
+## Seis municípios com os maiores IDH municipais em 2010:
 
 ```{r}
-
-library(magrittr)
-
-library(dplyr)
 
 pnud_csv %>% 
   select( municipio, ufn,  ano, gini, idhm) %>%
@@ -149,7 +145,7 @@ pnud_csv %>%
   head (n = 6 ) 
 ```
 
-Unidade federativa com menor expectativa de vida média, ponderada pela população dos municípios em 2000:
+## Unidade federativa com menor expectativa de vida média, ponderada pela população dos municípios em 2000:
 
 ```{r}
 pnud_csv %>% 
@@ -161,7 +157,7 @@ pnud_csv %>%
   head(1)
 ```
 
-Municípios outliers com relação ao índice de Gini em 1991 e em 2010 ( aqueles que estão acima ou abaixo da média por dois desvios padrão):
+## Municípios outliers com relação ao índice de Gini em 1991 e em 2010 ( aqueles que estão acima ou abaixo da média por dois desvios padrão):
 ```{r}
 
 municipios_outliers_1991 <- pnud %>% 
@@ -172,7 +168,7 @@ municipios_outliers_2010 <- pnud %>%
   select( municipio,ano, gini) %>%
   filter( ano == 2010 & ( gini > mean(gini) + 2*sd(gini)) | gini < mean(gini) - 2*sd(gini))
 
-head(municipios_outliers_1991)
+municipios_outliers_1991
 
 head(municipios_outliers_2010)
 
