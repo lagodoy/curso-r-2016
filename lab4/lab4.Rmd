@@ -158,3 +158,11 @@ economics  %>%
 ### limtie superior da banda é o quantil de 99% do número de desempregados
 
 ## Afim de comparar a evolução no tempo dos índices pce, psaver e taxa de desemprego (unemploy/pop), tente refazer o seguinte gráfico.
+```{r}
+
+economics  %>% select(date, pce, psavert, unemploy, pop)  %>% mutate(tx_desemprego = unemploy / pop)   %>% gather ( tipo_grafico, valor,  -date) %>% 
+  ggplot (aes(x = date, y = valor)) + geom_line()
+
+
+```
+
