@@ -17,7 +17,7 @@ flights %>% tbl_df
 
 ```
 
-#select
+#filter
 
 Vôos de janeiro de 2013:
 
@@ -46,7 +46,7 @@ filter_3 <- flights %>%
 head(filter_3)
 ```
 
-#filter
+#select
 
 Com as colunas month e dep_delay:
 ```{r}
@@ -69,7 +69,7 @@ head(select_2)
 
 ```
 
-Sem as colunbas tailnum, origin e dest
+Sem as colunas tailnum, origin e dest
 
 ```{r}  
 
@@ -129,6 +129,7 @@ summarise_2 <- flights %>%
 head(summarise_2)
 
 ```
+Média, mediana, primeiro quartil e terceiro quartil do tempo de viagem por mês:
 
 ```{r}
 
@@ -147,7 +148,7 @@ quartis$q
 
 #arrange
 
-Ordene a base de dados pelo atraso na partida em ordem crescente.
+Ordene a base de dados pelo atraso na partida em ordem crescente:
 
 ```{r}
 arrange_1 <- flights %>% 
@@ -156,7 +157,7 @@ arrange_1 <- flights %>%
 head(arrange_1)
 ```
 
-Repita a questão anterior, porém na ordem decrescente.
+Repita a questão anterior, porém na ordem decrescente:
 
 ```{r}
 
@@ -169,7 +170,7 @@ head(arrange_2)
 
 #spread
 
-Crie uma tabela em que cada linha é um dia e cada coluna é o atraso médio de partida por mês.
+Crie uma tabela em que cada linha é um dia e cada coluna é o atraso médio de partida por mês:
 ```{r}
 spread_1 <- flights %>% 
   group_by(day, month) %>% 
@@ -180,7 +181,7 @@ head(spread_1)
 
 ```
 
-Repita a mesma operação, mas dessa vez cada coluna será uma hora do dia.
+Repita a mesma operação, mas dessa vez cada coluna será uma hora do dia:
 
 ```{r}
 
@@ -195,9 +196,7 @@ head(spread_2)
 
 #gather
 
-Considerando as tabelas criadas nas perguntas sobre o spread:
-
-Transforme-as em um formato tidy.
+Considerando as tabelas criadas nas perguntas sobre o spread, transforme-as em um formato tidy:
 
 ```{r}
 gather_1 <- spread_1  %>% gather(mes, delay, -day)
