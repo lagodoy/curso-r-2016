@@ -135,15 +135,10 @@ Média, mediana, primeiro quartil e terceiro quartil do tempo de viagem por mês
 
 summarise_3 <- flights %>%
   group_by(month) %>% 
-  summarise(mean(air_time, na.rm = TRUE), median(air_time, na.rm = TRUE))
+  summarise(mean(air_time, na.rm = TRUE), median(air_time, na.rm = TRUE), primeiro_q = quantile(air_time, probs = c(0.25), na.rm = TRUE), terceiro_q = quantile(air_time, probs = c(0.75), na.rm =TRUE))
 
-# A função quantile estava falhando com o summarise acima.
-quartis <- flights %>% 
-  group_by(month) %>% do(q=quantile(.$air_time, c(0.25, 0.75), na.rm = TRUE))
+head(summarise_3) %>% tbl_df()
 
-head(summarise_3)
-
-quartis$q
 ```
 
 #arrange

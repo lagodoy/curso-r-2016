@@ -141,13 +141,14 @@ economics  %>%
 ## Tente reproduzir o seguinte gráfico:
 
 ```{r}
-ano = year(economics$date)
+ano <- year(economics$date)
+
 
 economics  %>%
   cbind(ano) %>% 
   group_by(ano) %>% 
-  summarise(media_desem = mean(unemploy)) %>% 
-  ggplot(aes(ano, media_desem, group = 1)) + geom_line() + xlab("Ano") + ylab("Número médio de desempregados") + geom_ribbon()
+  summarise( media_desem = mean(unemploy), linf = quantile(unemploy, c(0.01)), lsup = quantile (unemploy, c(0.99))) %>% 
+  ggplot(aes(ano, media_desem, group = 1)) + geom_line() + xlab("Ano") + ylab("Número médio de desempregados") + geom_ribbon(aes(ymin = linf, ymax = lsup), alpha = 0.3)
 
 ```
 
