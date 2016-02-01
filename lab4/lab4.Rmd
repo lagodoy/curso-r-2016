@@ -161,7 +161,7 @@ economics  %>%
 ```{r}
 
 economics  %>% select(date, pce, psavert, unemploy, pop)  %>% mutate(tx_desemprego = unemploy / pop)  %>% select(date, pce, psavert, tx_desemprego) %>% gather ( tipo_grafico, valor,  -date) %>% 
-  ggplot (aes(x = date, y = valor)) + geom_line() + facet_wrap(~tipo_grafico, nrow=3, ncol=1)
+  ggplot (aes(x = date, y = valor)) + geom_line() + facet_wrap(~tipo_grafico, nrow=3, ncol=1, scale = "free")
 
 
 ```
