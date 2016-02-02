@@ -82,13 +82,126 @@ mean(sum((img_df_parte1_lm$b_backup - img_df_parte1_lm$predito_lm)^2))
 
 mean(sum((img_df_parte1_tree$b_backup - img_df_parte1_tree$predito_tree)^2))
 
-jpg_predito_lm <- rgb(img_df_parte1_lm$r, img_df_parte1_lm$g, img_df_parte1_lm$b)
+jpg_predito_lm <- rgb(img_df_parte1_lm$r, img_df_parte1_lm$g, img_df_parte1_lm$predito_lm)
 
+jpg_predito_tree <- rgb(img_df_parte1_tree$r, img_df_parte1_tree$g, img_df_parte1_tree$predito_tree)
+
+
+ggplot(data = img_df_parte1, aes(x = x, y = y)) + 
+  geom_point(colour = jpg_predito_lm) +
+  labs(x = "x", y = "y", title = "Imagem com predição de modelo linear") +
+  coord_fixed(ratio = 1) +
+  theme_bw()
+
+ggplot(data = img_df_parte1, aes(x = x, y = y)) + 
+  geom_point(colour = jpg_predito_tree) +
+  labs(x = "x", y = "y", title = "Imagem com predição de modelo de árvore de decisão") +
+  coord_fixed(ratio = 1) +
+  theme_bw()
 
 # tratar valores negativos
 
 ```
 
 
+# xadrez_colorido.jpg
 
+
+```{r}
+library(ggplot2)
+library(magrittr)
+library(tidyr)
+library(dplyr)
+library(jpeg)
+library(tree)
+
+img <- readJPEG("images/xadrez_colorido.jpg")
+img_dim <- dim(img)
+
+# RGB para data.frame
+img_df <- data.frame(
+  x = rep(1:img_dim[2], each = img_dim[1]),
+  y = rep(img_dim[1]:1, img_dim[2]),
+  r = as.vector(img[,,1]),
+  g = as.vector(img[,,2]),
+  b = as.vector(img[,,3])
+) %>%
+  mutate(cor = rgb(r, g, b),
+         id = 1:n())
+
+# para reprodução
+set.seed(1) 
+
+# Parte 1) x, y, r, g
+img_df_parte1 <- img_df %>% 
+  sample_frac(3/5) %>% # separando 3/5 do banco
+  mutate(b_backup = b, # backup do azul original
+         b = 0, # retirando o azul da imagem
+         cor = rgb(r, g, b)) # cor da imagem sem o azul
+
+# Parte 2) x, y, r, g, b
+img_df_parte2 <- img_df %>% filter(!id%in%img_df_parte1$id) # filtra as linhas que estão na Parte 1
+
+# Imagem sem o azul
+ggplot(data = img_df_parte1, aes(x = x, y = y)) + 
+  geom_point(colour = img_df_parte1$cor) +
+  labs(x = "x", y = "y", title = "Imagem sem B (azul)") +
+  coord_fixed(ratio = 1) +
+  theme_bw()
+
+# Apenas o azul da imagem
+ggplot(data = img_df_parte2, aes(x = x, y = y)) + 
+  geom_point(colour = img_df_parte2$cor) +
+  labs(x = "x", y = "y", title = "Imagem sem B (azul)") +
+  coord_fixed(ratio = 1) +
+  theme_bw()
+
+# uma amostra de 500 pontos para a análise descritiva (usar o banco inteiro é desnecessário e demorado)
+img_df_amostra <- img_df %>% 
+  sample_n(500,replace = FALSE)
+
+cor(img_df_amostra %>% 
+      select (-cor, -id)) %>% 
+  round(2)
+
+pairs(~x + y + r + g + b, img_df_amostra )
+
+modelo_lm <- lm(b ~ r, img_df_parte2)
+modelo_tree <- tree( b ~ r, img_df_parte2)
+
+predito_lm <- predict( modelo_lm, img_df_parte1)
+predito_tree <- predict( modelo_tree, img_df_parte1)
+
+img_df_parte1_lm <- cbind(img_df_parte1, predito_lm)
+
+img_df_parte1_lm$predito_lm[img_df_parte1_lm$predito_lm < 0] = 0
+
+img_df_parte1_tree <- cbind(img_df_parte1, predito_tree)
+
+img_df_parte1_tree$predito_tree[img_df_parte1_tree$predito_tree < 0] = 0
+
+mean(sum((img_df_parte1_lm$b_backup - img_df_parte1_lm$predito_lm)^2))
+
+mean(sum((img_df_parte1_tree$b_backup - img_df_parte1_tree$predito_tree)^2))
+
+jpg_predito_lm <- rgb(img_df_parte1_lm$r, img_df_parte1_lm$g, img_df_parte1_lm$predito_lm)
+
+jpg_predito_tree <- rgb(img_df_parte1_tree$r, img_df_parte1_tree$g, img_df_parte1_tree$predito_tree)
+
+
+ggplot(data = img_df_parte1, aes(x = x, y = y)) + 
+  geom_point(colour = jpg_predito_lm) +
+  labs(x = "x", y = "y", title = "Imagem com predição de modelo linear") +
+  coord_fixed(ratio = 1) +
+  theme_bw()
+
+ggplot(data = img_df_parte1, aes(x = x, y = y)) + 
+  geom_point(colour = jpg_predito_tree) +
+  labs(x = "x", y = "y", title = "Imagem com predição de modelo de árvore de decisão") +
+  coord_fixed(ratio = 1) +
+  theme_bw()
+
+# tratar valores negativos
+
+```
 
