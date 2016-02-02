@@ -5,6 +5,12 @@ date: "29 de janeiro de 2016"
 output: html_document
 ---
 
+# purple_wave.jpg
+
+O modelo linear teve um desempenho melhor.
+
+Acredito que o padrão de transição pode ter ajudado, pois vai mudando "aos poucos" um valor em relação ao outro (r e b por exemplo) e o modelo capta essa transição.
+
 ```{r}
 library(ggplot2)
 library(magrittr)
@@ -70,22 +76,25 @@ modelo_tree <- tree( b ~ r, img_df_parte2)
 predito_lm <- predict( modelo_lm, img_df_parte1)
 predito_tree <- predict( modelo_tree, img_df_parte1)
 
-img_df_parte1_lm <- cbind(img_df_parte1, predito_lm)
+img_df_parte1_lm <- img_df_parte1
 
-img_df_parte1_lm$predito_lm[img_df_parte1_lm$predito_lm < 0] = 0
+img_df_parte1_lm$b <- predito_lm
 
-img_df_parte1_tree <- cbind(img_df_parte1, predito_tree)
+img_df_parte1_lm$b[img_df_parte1_lm$b < 0] = 0
 
-img_df_parte1_tree$predito_tree[img_df_parte1_tree$predito_tree < 0] = 0
+img_df_parte1_tree <- img_df_parte1
 
-mean(sum((img_df_parte1_lm$b_backup - img_df_parte1_lm$predito_lm)^2))
+img_df_parte1_tree$b <- predito_tree
 
-mean(sum((img_df_parte1_tree$b_backup - img_df_parte1_tree$predito_tree)^2))
+img_df_parte1_tree$predito_tree[img_df_parte1_tree$b < 0] = 0
 
-jpg_predito_lm <- rgb(img_df_parte1_lm$r, img_df_parte1_lm$g, img_df_parte1_lm$predito_lm)
+mean(sum((img_df_parte1_lm$b_backup - img_df_parte1_lm$b)^2))
 
-jpg_predito_tree <- rgb(img_df_parte1_tree$r, img_df_parte1_tree$g, img_df_parte1_tree$predito_tree)
+mean(sum((img_df_parte1_tree$b_backup - img_df_parte1_tree$b)^2))
 
+jpg_predito_lm <- rgb(img_df_parte1_lm$r, img_df_parte1_lm$g, img_df_parte1_lm$b)
+
+jpg_predito_tree <- rgb(img_df_parte1_tree$r, img_df_parte1_tree$g, img_df_parte1_tree$b)
 
 ggplot(data = img_df_parte1, aes(x = x, y = y)) + 
   geom_point(colour = jpg_predito_lm) +
@@ -99,13 +108,11 @@ ggplot(data = img_df_parte1, aes(x = x, y = y)) +
   coord_fixed(ratio = 1) +
   theme_bw()
 
-# tratar valores negativos
-
 ```
-
 
 # xadrez_colorido.jpg
 
+Nessa parte o modelo tree teve um resultado melhor, porém nenhum dos dois modelos foi muito bem sucedido.
 
 ```{r}
 library(ggplot2)
@@ -172,22 +179,25 @@ modelo_tree <- tree( b ~ r, img_df_parte2)
 predito_lm <- predict( modelo_lm, img_df_parte1)
 predito_tree <- predict( modelo_tree, img_df_parte1)
 
-img_df_parte1_lm <- cbind(img_df_parte1, predito_lm)
+img_df_parte1_lm <- img_df_parte1
 
-img_df_parte1_lm$predito_lm[img_df_parte1_lm$predito_lm < 0] = 0
+img_df_parte1_lm$b <- predito_lm
 
-img_df_parte1_tree <- cbind(img_df_parte1, predito_tree)
+img_df_parte1_lm$b[img_df_parte1_lm$b < 0] = 0
 
-img_df_parte1_tree$predito_tree[img_df_parte1_tree$predito_tree < 0] = 0
+img_df_parte1_tree <- img_df_parte1
 
-mean(sum((img_df_parte1_lm$b_backup - img_df_parte1_lm$predito_lm)^2))
+img_df_parte1_tree$b <- predito_tree
 
-mean(sum((img_df_parte1_tree$b_backup - img_df_parte1_tree$predito_tree)^2))
+img_df_parte1_tree$b[img_df_parte1_tree$b < 0] = 0
 
-jpg_predito_lm <- rgb(img_df_parte1_lm$r, img_df_parte1_lm$g, img_df_parte1_lm$predito_lm)
+mean(sum((img_df_parte1_lm$b_backup - img_df_parte1_lm$b)^2))
 
-jpg_predito_tree <- rgb(img_df_parte1_tree$r, img_df_parte1_tree$g, img_df_parte1_tree$predito_tree)
+mean(sum((img_df_parte1_tree$b_backup - img_df_parte1_tree$b)^2))
 
+jpg_predito_lm <- rgb(img_df_parte1_lm$r, img_df_parte1_lm$g, img_df_parte1_lm$b)
+
+jpg_predito_tree <- rgb(img_df_parte1_tree$r, img_df_parte1_tree$g, img_df_parte1_tree$b)
 
 ggplot(data = img_df_parte1, aes(x = x, y = y)) + 
   geom_point(colour = jpg_predito_lm) +
@@ -200,8 +210,6 @@ ggplot(data = img_df_parte1, aes(x = x, y = y)) +
   labs(x = "x", y = "y", title = "Imagem com predição de modelo de árvore de decisão") +
   coord_fixed(ratio = 1) +
   theme_bw()
-
-# tratar valores negativos
 
 ```
 
