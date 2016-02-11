@@ -13,6 +13,7 @@ shinyServer(function(input, output) {
   output$reta_ajustada <- renderPlot({
     
     library(ggplot2)
+    library(magrittr)
     
     # definição das variáveis 
     y <- input$resposta
